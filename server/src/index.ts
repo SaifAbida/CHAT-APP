@@ -1,12 +1,11 @@
 import "reflect-metadata";
-import { createExpressServer } from "routing-controllers";
+import { createExpressServer,useContainer } from "routing-controllers";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { UserControllers } from "./controllers/UserControllers";
 import { container } from "./containers/container";
-import { useContainer } from "class-validator";
-dotenv.config();
 
+dotenv.config();
 useContainer(container);
 const app = createExpressServer({
   controllers: [UserControllers],

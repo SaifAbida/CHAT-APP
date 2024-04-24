@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
 
 export const User = mongoose.model("Users", userSchema);
 
-export interface userType extends Document {
+export interface userType {
+  _id? :string;
   username: string;
   email: string;
   password: string;

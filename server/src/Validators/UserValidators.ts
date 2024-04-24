@@ -5,9 +5,8 @@ import {
   Length,
   IsEmail,
 } from "class-validator";
-import { Document } from "mongoose";
 
-export class userValidators extends Document {
+export class RegisterValidators {
   @IsNotEmpty()
   @IsAlphanumeric()
   @Length(5, 20)
@@ -19,6 +18,31 @@ export class userValidators extends Document {
   @IsString()
   @Length(5)
   password: string;
+}
+
+export class UpdateValidators {
+  @IsNotEmpty()
+  @IsAlphanumeric()
+  @Length(5, 20)
+  username: string;
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+}
+
+export class PasswordResetValidators {
+  @IsNotEmpty()
+  @IsString()
+  @Length(5)
+  currentPassword: string;
+  @IsNotEmpty()
+  @IsString()
+  @Length(5)
+  newPassword: string;
+  @IsNotEmpty()
+  @IsString()
+  @Length(5)
+  confirmPassword: string;
 }
 
 export class LoginValidators {

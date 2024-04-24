@@ -2,9 +2,14 @@ import { inject, injectable } from "inversify";
 import { UserRepository } from "../Repositories/UserRepository";
 import { userType } from "../modules/userModule";
 import { PasswordService } from "./PasswordService";
-import { NotFoundError, UnauthorizedError } from "../costumError/CustomErrors";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../costumError/CustomErrors";
 import { TokenServices } from "./TokenService";
 import bcrypt from "bcrypt";
+import { Document } from "mongoose";
 
 @injectable()
 export class UserServices {
@@ -44,12 +49,47 @@ export class UserServices {
     }
     return user;
   }
-  async updateUser(id: string, item: userType): Promise<userType> {
+  async updateUser(
+    id: string,
+    item: { username: string; email: string }
+  ): Promise<userType> {
     const user = await this.userRepository.update(id, item);
     if (!user) {
       throw new NotFoundError();
     }
     return user;
+  }
+  async passwordReset(
+    id: string,
+    item: {
+      currentPassword: string;
+      newPassword: string;
+      confirmPassword: string;
+    }
+  ) {
+    const user = await this.userRepository.findOne(id);
+    const verifyCurrentPassword = await this.passwordService.verifyPassword(
+      item.currentPassword,
+      user.password
+    );
+    if (!verifyCurrentPassword) {
+      throw new BadRequestError();
+    }
+    const verifyNewPassword = await this.passwordService.verifyPassword(
+      item.newPassword,
+      user.password
+    );
+    if (verifyNewPassword) {
+      throw new BadRequestError();
+    }
+    if (item.newPassword !== item.confirmPassword) {
+      throw new BadRequestError();
+    }
+    const newHashedPassword = await this.passwordService.hashPassword(
+      item.newPassword
+    );
+    user.password = newHashedPassword;
+    return await this.userRepository.save(user);
   }
   async deleteUser(id: string): Promise<boolean> {
     const user = await this.userRepository.delete(id);

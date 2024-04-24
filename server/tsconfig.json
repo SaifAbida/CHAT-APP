@@ -18,6 +18,9 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "lib": ["es6"],
+    "types": ["reflect-metadata"],
+    "moduleResolution": "node",
   }
 }

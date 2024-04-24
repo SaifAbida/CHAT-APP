@@ -20,7 +20,8 @@ const messageSchema = new mongoose.Schema({
 
 export const Message = mongoose.model("Messages", messageSchema);
 
-export interface messageType extends Document {
+export interface messageType {
+  _id? :string;
   conversation_id: Schema.Types.ObjectId;
   sender_id: Schema.Types.ObjectId;
   content: string;

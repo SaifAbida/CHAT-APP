@@ -8,8 +8,9 @@ const conversationSchema = new mongoose.Schema({
 
 export const Conversation = mongoose.model("Conversations", conversationSchema);
 
-export interface Conversation extends Document {
-  participants: Schema.Types.ObjectId[];
-  name: string;
-  created_at: Date;
+export interface conversationType {
+  _id? :mongoose.Types.ObjectId;
+  participants: mongoose.Types.ObjectId[];
+  name?: string;
+  created_at?: Date;
 }

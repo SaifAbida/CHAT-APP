@@ -12,3 +12,9 @@ export class UnauthorizedError extends DomaineError {
     super("Unauthorized", HttpStatusCodes.Unauthorized);
   }
 }
+
+export class BadRequestError extends DomaineError {
+  constructor() {
+    super("Bad Request", HttpStatusCodes.BadRequest);
+  }
+}

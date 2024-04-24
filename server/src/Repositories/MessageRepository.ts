@@ -1,10 +1,10 @@
 import { injectable } from "inversify";
-import { RepoInterface } from "../interfaces/RepoInterface";
+import { MessageInterface } from "../interfaces/MessageInterface";
 import { messageType } from "../modules/messageModule";
 import { Message } from "../modules/messageModule";
 
 @injectable()
-export class MessageRepository implements RepoInterface<messageType> {
+export class MessageRepository implements MessageInterface<messageType> {
   private readonly database = Message;
   async create(item: messageType): Promise<messageType> {
     const newMessage = new this.database(item);
