@@ -40,17 +40,30 @@ export class ConversationServices {
     return await this.conversationRepository.findAll(id);
   }
 
-  async updateConversations(
-    id: string,
-    item: conversationType
+  async updateConversationName(
+    userID: string,
+    ConversationID: string,
+    name: string
   ): Promise<conversationType> {
-    const updatedConversation = await this.conversationRepository.update(
-      id,
-      item
+    const conversationToUpdate = await this.conversationRepository.findOne(
+      ConversationID
     );
-    if (!updatedConversation) {
+    if (!conversationToUpdate) {
       throw new NotFoundError();
     }
+    const userObjID = new mongoose.Types.ObjectId(userID);
+    if (!conversationToUpdate.participants.includes(userObjID)) {
+      throw new UnauthorizedError();
+    }
+    const newConversation = {
+      ...conversationToUpdate.toObject(),
+      name: name,
+    };
+    const updatedConversation = await this.conversationRepository.update(
+      ConversationID,
+      newConversation
+    );
+
     return updatedConversation;
   }
 

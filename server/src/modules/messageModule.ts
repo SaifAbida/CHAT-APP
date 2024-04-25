@@ -21,8 +21,8 @@ const messageSchema = new mongoose.Schema({
 export const Message = mongoose.model("Messages", messageSchema);
 
 export interface messageType {
-  _id? :string;
-  conversation_id: Schema.Types.ObjectId;
-  sender_id: Schema.Types.ObjectId;
+  _id?: mongoose.Types.ObjectId;
+  conversation_id: mongoose.Types.ObjectId;
+  sender_id: mongoose.Types.ObjectId;
   content: string;
 }

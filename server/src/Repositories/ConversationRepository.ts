@@ -22,9 +22,9 @@ export class ConversationRepository
       ],
       name,
     });
+    console.log(newConversation)
     return (await newConversation.save()) as unknown as conversationType;
   }
-
   async findOne(id: string): Promise<conversationType | null> {
     return await this.database.findById(id);
   }
